@@ -1,11 +1,9 @@
-import "core-js/stable"
-import "regenerator-runtime/runtime"
 import {Fraction} from "fractional"
 
 import * as model from "./model.js"
 import receipeView from "./views/receipeView.js";
-
-const recipeContainer = document.querySelector('.recipe');
+import searchView from "./views/searchView.js";
+import resultsView from "./views/resultsView.js";
 
 ///////////////////////////////////////
 ///////////////////////////////////////
@@ -31,9 +29,24 @@ const controlRecipes = async function() {
   }
 }
 
+const controlSearchResults = async function () {
+  try {
+    resultsView.renderSpinner()
+
+    const query = searchView.getQuery()
+    if(!query) return;
+
+    await model.loadSearchResults(query)
+    resultsView.render(model.getSearchResultsPage(1))
+
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 const init = function() {
   receipeView.addHandlerRender(controlRecipes)
+  searchView.addHandlerSearch(controlSearchResults)
 }
 
 init()

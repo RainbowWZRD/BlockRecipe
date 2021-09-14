@@ -5,11 +5,11 @@ class SearchView {
     // i need to select the child ( input field ) and get the value)
     getQuery () {
         const query = this._parentElement.querySelector('.search__field').value
-        this.#clearInput
+        this._clearInput
         return query
     }
 
-    #clearInput() {
+    _clearInput() {
         this._parentElement.querySelector('.search__field').value = ''
     }
 
